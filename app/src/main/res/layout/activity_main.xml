@@ -79,9 +79,10 @@
        />
 
     <ToggleButton
-        android:text="ToggleButton"
+        android:id="@+id/toggleButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toggleButton2" />
+        android:checked="false"
+        android:text="ToggleButton" />
 
 </LinearLayout>

@@ -17,6 +17,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-t1=(ToggleButton) findViewById(R.id.toggleButton2);
+        t1=(ToggleButton) findViewById(R.id.toggleButton2);
 
         batteryLevel = (TextView)findViewById(R.id.battery_level);
         voltageLevel = (TextView)findViewById(R.id.voltage_level);
@@ -55,14 +57,29 @@ t1=(ToggleButton) findViewById(R.id.toggleButton2);
         r1 = RingtoneManager.getRingtone(getApplicationContext(), notificatn);
         r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-       String togglevalue=t1.getText().toString();
-        if(togglevalue=="on"){
-            Intent intent = new Intent(this, BatteryService.class);
-            startService(intent);
-        }else{
-            Intent intent = new Intent(this, BatteryService.class);
-            stopService(intent);
-        }
+
+        t1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    startservice();
+                }else{
+                    stopService();
+                }
+            }
+        });
+
+
+    }
+
+    private void stopService() {
+        Intent intent = new Intent(this, BatteryService.class);
+        stopService(intent);
+    }
+
+    private void startservice() {
+        Intent intent = new Intent(this, BatteryService.class);
+        startService(intent);
     }
 
 
